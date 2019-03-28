@@ -4,8 +4,6 @@ config.xml 的配置方式实在是令我用起来不顺手,而 mybatis-generato
 
 以下给出 env.properties 的配置说明, 在无特殊需要的情况下,不要修改 /generator/config.xml
 
----
-
 - metadata.author
   - 作者名, 默认为 <a href="http://www.github.com/wautsns">wautsns</a>
 - metadata.version
@@ -18,12 +16,12 @@ config.xml 的配置方式实在是令我用起来不顺手,而 mybatis-generato
   - mysql 8.0+: com.mysql.cj.jdbc.Driver
   - oracle: oracle.jdbc.OracleDriver
 - jdbc.url
-  - mysql 5.7-: jdbc:mysql://ip:3306/database
-  - mysql 8.0+: jdbc:mysql://ip:3306/database?userSSL=false&serverTimezone=GMT
-  - oracle: jdbc:oracle:thin:@ip:1521:instance
+  - mysql 5.7-: jdbc:mysql://ip:port(3306)/database
+  - mysql 8.0+: jdbc:mysql://ip:port(3306)/database?userSSL=false&serverTimezone=GMT
+  - oracle: jdbc:oracle:thin:@ip:port(1521):instance
 - jdbc.username
 - jdbc.password
-&nbsp
+---
 - table.name
   - 表名, 默认为 %, 支持 SQL 通配符
 - table.key.name
@@ -35,22 +33,19 @@ config.xml 的配置方式实在是令我用起来不顺手,而 mybatis-generato
     - <BEFORE/AFTER>,primaryKeyGenerateSQL
       - 可用 {table} 表示小写的表名, 用 {TABLE} 表示大写的表名
       - oracle 数据库默认为 BEFORE,select SEQ_{TABLE}.nextval from dual
-
-
+---
 - model.subpackage
   - PO 类相对基本包所在的子包, 默认为 domain.po
 - model.template
   - PO 类的名称, 默认为 {model}PO
-
-
+---
 - mapper.subpackage
   - Mapper 接口相对基本包所在的子包, 默认为 mapper
  - mapper.template
    - Mapper 接口的名称, 默认为 {model}Mapper
 - mapper.extends
   - Mapper 所继承的接口,默认为 Mapper + MySqlMapper/OracleMapper/SqlserverMapper/无,会自动为接口增加一个对应 PO 类的泛型参数
-
-
+---
 - extra.lombok
   - 需要开启的 lombok 注解, 默认为 @Getter,@Setter,@Accessors(chain = true)
 - extra.swagger
