@@ -23,16 +23,17 @@ config.xml 的配置方式实在是令我用起来不顺手,而 mybatis-generato
 - jdbc.password
 ---
 - table.name
-  - 表名, 默认为 %, 支持 SQL 通配符
+  - 表名, 默认为 %, 支持 SQL 通配符,可为 [catalog].[schema].table
 - table.key.name
   - 表中的主键名, 默认为 id
 - table.key.generator
-  - 表中主键的生成策略, 默认根据连接的数据库自动生成,
+  - 表中主键的生成策略, 默认根据连接的数据库自动生成(仅包含了些常用的数据库,所以对于某些数据库需手动配置),
+  - 用于生成 tk-mybatis 中的 @KeySql
   - 格式
     - JDBC(仅支持自增的数据库可用)
     - <BEFORE/AFTER>,primaryKeyGenerateSQL
       - 可用 {table} 表示小写的表名, 用 {TABLE} 表示大写的表名
-      - oracle 数据库默认为 BEFORE,select SEQ_{TABLE}.nextval from dual
+      - oracle 数据库默认为: BEFORE,select SEQ_{TABLE}.nextval from dual,若不是,请额外配置
 ---
 - model.subpackage
   - PO 类相对基本包所在的子包, 默认为 domain.po
