@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.wautsns.utility</groupId>
+	<artifactId>wautsns-tk-mybatis-generator</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>wautsns</name>
+			<email>wautsns@foxmail.com</email>
+			<url>https://github.com/wautsns/</url>
+			<timezone>8</timezone>
+		</developer>
+	</developers>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.10.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.28</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.6</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.47</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc7</artifactId>
+			<version>12.1.0.2</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+	</build>
+
+</project>
