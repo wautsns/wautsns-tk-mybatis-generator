@@ -113,6 +113,13 @@ public class Env {
 				wrapper = text -> text;
 			}
 		}
+
+		public static String toFullTableName(String shortTableName) {
+			String full = wrapper.apply(shortTableName);
+			if (schema != null) full = schema + '.' + full;
+			if (catalog != null) full = catalog + '.' + full;
+			return full;
+		}
 	}
 
 	public static class Key {
@@ -129,7 +136,7 @@ public class Env {
 			else if (!generator.isEmpty())
 				initSpecifiedKeySQL(generator);
 			else if ("ORACLE".equals(DB.type))
-				initSpecifiedKeySQL("BEFORE,select SEQ_{TABLE}.nextval from dual");
+				initSpecifiedKeySQL(String.format("BEFORE,select %s.SEQ_{TABLE}.nextval from dual", DB.schema));
 			else
 				initIdentityKeySQL();
 		}
@@ -151,8 +158,8 @@ public class Env {
 			imports.add(new FullyQualifiedJavaType("tk.mybatis.mapper.code.IdentityDialect"));
 		}
 
-		private static void initSpecifiedKeySQL(String generator) {
-			String[] orderAndSql = generator.split(":", 2);
+		private static void initSpecifiedKeySQL(String expr) {
+			String[] orderAndSql = expr.split(",", 2);
 			if (orderAndSql.length == 1)
 				throw new RuntimeException(
 					"table.key.generator 格式必须为 <BEFORE/AFTER>,keyGenerateSql");

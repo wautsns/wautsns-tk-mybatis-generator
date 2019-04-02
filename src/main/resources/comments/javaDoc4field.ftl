@@ -1,1 +1,1 @@
-/** ${column.remarks} */
+/** ${column.remarks!""} */

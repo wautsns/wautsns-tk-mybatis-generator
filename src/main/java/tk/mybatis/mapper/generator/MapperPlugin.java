@@ -74,7 +74,8 @@ public class MapperPlugin extends FalseMethodPlugin {
 		// XXX 引入需要的JPA注解
 		Arrays.asList(
 			"javax.persistence.Table",
-			"javax.persistence.Id"
+			"javax.persistence.Id",
+			"javax.persistence.Column"
 			).forEach(topLevelClass::addImportedType);
 		// FIXME 修改 lombok 注解加入方式
 		Key.imports.forEach(topLevelClass::addImportedType);
@@ -98,9 +99,9 @@ public class MapperPlugin extends FalseMethodPlugin {
 		// endregion swagger扩展
 		// FIXME 从 [catalog].[schema].table 中获取表名
 		String[] temp = introspectedTable.getFullyQualifiedTableNameAtRuntime().split("\\.");
-		String tableName = temp[temp.length - 1];
+		String shortTableName = temp[temp.length - 1];
 		// end
-		topLevelClass.addAnnotation("@Table(name = \"" + DB.wrapper.apply(tableName) + "\")");
+		topLevelClass.addAnnotation("@Table(name = \"" + DB.toFullTableName(shortTableName) + "\")");
 		// FIXME 移除字段名常量, 因为 Weekend 有 lambda 方式
 		// FIXME 移除默认值的 instance, 感觉无用
 		// FIXME 添加 hashcode/equals

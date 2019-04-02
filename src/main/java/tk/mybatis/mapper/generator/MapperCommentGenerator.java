@@ -33,6 +33,7 @@ import org.mybatis.generator.internal.util.StringUtility;
 
 import com.github.wautsns.utility.tk.mybatis.Env;
 import com.github.wautsns.utility.tk.mybatis.Env.Comments;
+import com.github.wautsns.utility.tk.mybatis.Env.DB;
 import com.github.wautsns.utility.tk.mybatis.Env.Extra;
 import com.github.wautsns.utility.tk.mybatis.handler.CommonCommentGenerator;
 
@@ -58,7 +59,9 @@ public class MapperCommentGenerator extends CommonCommentGenerator {
 				break;
 			}
 		}
-		// FIXME 不加@Column,若有下划线之类需要转换, 请通过 mybatis 参数设置
+		// FIXME 固定加 @Column
+		String columnName = introspectedColumn.getActualColumnName();
+		field.addAnnotation("@Column(name = \"" + DB.wrapper.apply(columnName) + "\")");
 		// FIXME 使用新注解 @KeySql 替代 @GeneratedValue
 		if (introspectedColumn.getActualColumnName().equalsIgnoreCase(Env.Key.name)) {
 			String[] temp = introspectedTable.getFullyQualifiedTableNameAtRuntime().split("\\.");
