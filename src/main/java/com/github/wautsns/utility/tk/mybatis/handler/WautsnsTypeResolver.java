@@ -15,6 +15,7 @@
  */
 package com.github.wautsns.utility.tk.mybatis.handler;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Types;
 
@@ -37,11 +38,16 @@ public class WautsnsTypeResolver extends JavaTypeResolverDefaultImpl {
 			= new FullyQualifiedJavaType(Long.class.getName());
 	private static final FullyQualifiedJavaType BIG_INTEGER
 			= new FullyQualifiedJavaType(BigInteger.class.getName());
+	private static final FullyQualifiedJavaType DOUBLE
+			= new FullyQualifiedJavaType(Double.class.getName());
+	private static final FullyQualifiedJavaType BIG_DECIMAL
+			= new FullyQualifiedJavaType(BigDecimal.class.getName());
 
 	@Override
 	protected FullyQualifiedJavaType overrideDefaultType(
 			IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
 		if (column.isUnsigned()) {
+			// TODO 是否还有其他的? etc.
 			switch (column.getJdbcType()) {
 			case Types.TINYINT:
 				return SHORT;
@@ -51,6 +57,10 @@ public class WautsnsTypeResolver extends JavaTypeResolverDefaultImpl {
 				return LONG;
 			case Types.BIGINT:
 				return BIG_INTEGER;
+			case Types.FLOAT:
+				return DOUBLE;
+			case Types.DOUBLE:
+				return BIG_DECIMAL;
 			}
 		}
 		return super.overrideDefaultType(column, defaultType);
