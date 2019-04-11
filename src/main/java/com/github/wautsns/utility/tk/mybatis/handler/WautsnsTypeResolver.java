@@ -15,6 +15,7 @@
  */
 package com.github.wautsns.utility.tk.mybatis.handler;
 
+import java.math.BigInteger;
 import java.sql.Types;
 
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -34,6 +35,8 @@ public class WautsnsTypeResolver extends JavaTypeResolverDefaultImpl {
 			= new FullyQualifiedJavaType(Integer.class.getName());
 	private static final FullyQualifiedJavaType LONG
 			= new FullyQualifiedJavaType(Long.class.getName());
+	private static final FullyQualifiedJavaType BIG_INTEGER
+			= new FullyQualifiedJavaType(BigInteger.class.getName());
 
 	@Override
 	protected FullyQualifiedJavaType overrideDefaultType(
@@ -46,6 +49,8 @@ public class WautsnsTypeResolver extends JavaTypeResolverDefaultImpl {
 				return INTEGER;
 			case Types.INTEGER:
 				return LONG;
+			case Types.BIGINT:
+				return BIG_INTEGER;
 			}
 		}
 		return super.overrideDefaultType(column, defaultType);

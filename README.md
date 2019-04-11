@@ -3,6 +3,7 @@
 config.xml 的配置方式实在是令我用起来不顺手,而 mybatis-generator 中的一些处理,我也不是太喜欢,故对 mybatis-generator-core 与 mapper-generator(tk) 的部分源码进行修改.由于是初版本,可能存在bug,且仍需做许多优化.
 
 以下给出 env.properties 的配置说明, 在无特殊需要的情况下,不要修改 /generator/config.xml
+(启动类: com.github.wautsns.utility.tk.mybatis.Startup)
 
 - metadata.author
   - 作者名, 默认为 <a href="http://www.github.com/wautsns">wautsns</a>
