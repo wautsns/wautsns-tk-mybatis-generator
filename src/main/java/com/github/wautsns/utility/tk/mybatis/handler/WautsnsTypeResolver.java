@@ -30,6 +30,9 @@ import org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl;
  */
 public class WautsnsTypeResolver extends JavaTypeResolverDefaultImpl {
 
+	private static final FullyQualifiedJavaType CHARACTER
+			= new FullyQualifiedJavaType(Character.class.getName());
+
 	private static final FullyQualifiedJavaType SHORT
 			= new FullyQualifiedJavaType(Short.class.getName());
 	private static final FullyQualifiedJavaType INTEGER
@@ -46,6 +49,8 @@ public class WautsnsTypeResolver extends JavaTypeResolverDefaultImpl {
 	@Override
 	protected FullyQualifiedJavaType overrideDefaultType(
 			IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
+		if (column.getJdbcType() == Types.CHAR && column.getLength() == 1)
+			return CHARACTER;
 		if (column.isUnsigned()) {
 			// TODO 是否还有其他的? etc.
 			switch (column.getJdbcType()) {
