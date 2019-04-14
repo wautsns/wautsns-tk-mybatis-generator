@@ -120,7 +120,7 @@ public class MapperPlugin extends FalseMethodPlugin {
 		equals.addParameter(new Parameter(FullyQualifiedJavaType.getObjectInstance(), "obj"));
 		equals.addAnnotation("@Override");
 		equals.addBodyLine("if (this == obj) return true;");
-		equals.addBodyLine("if(obj == null) return false;");
+		equals.addBodyLine("if (obj == null) return false;");
 		equals.addBodyLine("if (getClass() != obj.getClass())");
 		equals.addBodyLine("\treturn false;");
 		String modelName = topLevelClass.getType().getShortName();
@@ -128,14 +128,14 @@ public class MapperPlugin extends FalseMethodPlugin {
 		equals.setVisibility(JavaVisibility.PUBLIC);
 		if (pks.size() == 1) {
 			hashcode.addBodyLine(String.format("return Objects.hashCode(%s);", pks.get(0)));
-			equals.addBodyLine(String.format("return Objects.equals(%s,other.%s);", pks.get(0), pks.get(0)));
+			equals.addBodyLine(String.format("return Objects.equals(%s, other.%s);", pks.get(0), pks.get(0)));
 		} else {
 			StringBuilder bder = new StringBuilder();
-			pks.forEach(pk -> bder.append(pk).append(','));
-			bder.deleteCharAt(bder.length() - 1);
+			pks.forEach(pk -> bder.append(pk).append(", "));
+			bder.delete(bder.length() - 2, bder.length());
 			hashcode.addBodyLine(String.format("return Objects.hash(%s);", bder));
 			pks.forEach(pk -> {
-				equals.addBodyLine(String.format("if(!Objects.equals(%s,other.%s))", pk, pk));
+				equals.addBodyLine(String.format("if (!Objects.equals(%s,other.%s))", pk, pk));
 				equals.addBodyLine("\treturn false;");
 			});
 			equals.addBodyLine("return true;");
