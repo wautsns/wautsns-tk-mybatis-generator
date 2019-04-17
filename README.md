@@ -37,7 +37,7 @@ config.xml 的配置方式实在是令我用起来不顺手,而 mybatis-generato
       - oracle 数据库默认为: BEFORE,select SEQ_{TABLE}.nextval from dual,若不是,请额外配置
 ---
 - model.subpackage
-  - PO 类相对基本包所在的子包, 默认为 domain.po
+  - PO 类相对基本包所在的子包, 默认为 model.po
 - model.template
   - PO 类的名称, 默认为 {model}PO
 ---
