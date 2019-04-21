@@ -18,10 +18,10 @@ package com.github.wautsns.utility.tk.mybatis.model;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
-import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.InnerEnum;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
+import org.mybatis.generator.api.dom.java.Method;
 
 import com.github.wautsns.utility.tk.mybatis.Env;
 
@@ -32,19 +32,17 @@ import com.github.wautsns.utility.tk.mybatis.Env;
  */
 public class TableEnum extends InnerEnum {
 
-	private static final Field wrap;
+	private static final Method wrap;
 	static {
-		wrap = new Field();
+		wrap = new Method("wrap");
 		wrap.setVisibility(JavaVisibility.PUBLIC);
-		wrap.setFinal(true);
-		wrap.setType(new FullyQualifiedJavaType("String"));
+		wrap.setReturnType(new FullyQualifiedJavaType("String"));
 		String value = Env.DB.wrapper.apply("\" + name() + \"");
 		if (value.equals("\" + name() + \""))
 			value = "name()";
 		else
 			value = '"' + value + '"';
-		wrap.setInitializationString(value);
-		wrap.setName("wrap");
+		wrap.addBodyLine("return " + value + ";");
 	}
 
 	public TableEnum(IntrospectedTable table) {
@@ -52,7 +50,7 @@ public class TableEnum extends InnerEnum {
 		setVisibility(JavaVisibility.PUBLIC);
 		for (IntrospectedColumn column : table.getAllColumns())
 			addEnumConstant(column.getActualColumnName());
-		addField(wrap);
+		addMethod(wrap);
 	}
 
 }
