@@ -5,43 +5,42 @@
 
 <generatorConfiguration>
 
-	<properties resource="env.properties" />
+    <properties resource="env.properties" />
 
-	<context id="ctx1" targetRuntime="tk.mybatis.mapper.generator.TkMyBatis3SimpleImpl" defaultModelType="flat">
+    <context id="ctx1" targetRuntime="tk.mybatis.mapper.generator.TkMyBatis3SimpleImpl" defaultModelType="flat">
 
-		<property name="javaFileEncoding" value="UTF-8" />
+        <property name="javaFileEncoding" value="UTF-8" />
 
-		<plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-			<property name="mappers" value="${mapper.extends}" />
-			<property name="lombok" value="${extra.lombok}" />
-			<property name="swagger" value="${extra.swagger}" />
-		</plugin>
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="${mapper.extends}" />
+            <property name="lombok" value="${extra.lombok}" />
+            <property name="swagger" value="${extra.swagger}" />
+        </plugin>
 
-		<commentGenerator type="tk.mybatis.mapper.generator.MapperCommentGenerator" />
+        <commentGenerator type="tk.mybatis.mapper.generator.MapperCommentGenerator" />
 
-		<jdbcConnection driverClass="${jdbc.driver}" connectionURL="${jdbc.url}" userId="${jdbc.username}"
-			password="${jdbc.password}">
-		</jdbcConnection>
+        <jdbcConnection driverClass="${jdbc.driver}" connectionURL="${jdbc.url}"
+            userId="${jdbc.username}" password="${jdbc.password}">
+        </jdbcConnection>
 
-		<javaTypeResolver type="com.github.wautsns.utility.tk.mybatis.handler.WautsnsTypeResolver" />
+        <javaTypeResolver type="com.github.wautsns.utility.tk.mybatis.handler.WautsnsTypeResolver" />
 
-		<javaModelGenerator targetPackage="Have been rewritten by env, don't configure!"
-			targetProject="src/test/java">
-			<property name="enableSubPackages" value="false" />
-		</javaModelGenerator>
+        <javaModelGenerator targetPackage="Have been rewritten by env, don't configure!"
+            targetProject="src/test/java">
+            <property name="enableSubPackages" value="false" />
+        </javaModelGenerator>
 
-		<sqlMapGenerator targetPackage="mapper"
-			targetProject="src/test/resources">
-			<property name="enableSubPackages" value="false" />
-		</sqlMapGenerator>
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/test/resources">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
 
-		<javaClientGenerator targetPackage="Have been rewritten by env, don't configure!"
-			targetProject="src/test/java" type="XMLMAPPER">
-			<property name="enableSubPackages" value="false" />
-		</javaClientGenerator>
+        <javaClientGenerator targetPackage="Have been rewritten by env, don't configure!"
+            targetProject="src/test/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
 
-		<table tableName="Have been rewritten by env, don't configure!" />
+        <table tableName="Have been rewritten by env, don't configure!" />
 
-	</context>
+    </context>
 
 </generatorConfiguration>

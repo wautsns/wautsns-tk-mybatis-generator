@@ -26,31 +26,32 @@ import org.mybatis.generator.api.dom.java.Method;
 import com.github.wautsns.utility.tk.mybatis.Env;
 
 /**
+ * 将数据库的表信息映射为一个枚举
  *
  * @author wautsns
  * @version 0.1.0 Apr 18, 2019
  */
 public class TableEnum extends InnerEnum {
 
-	private static final Method wrap;
-	static {
-		wrap = new Method("wrap");
-		wrap.setVisibility(JavaVisibility.PUBLIC);
-		wrap.setReturnType(new FullyQualifiedJavaType("String"));
-		String value = Env.DB.wrapper.apply("\" + name() + \"");
-		if (value.equals("\" + name() + \""))
-			value = "name()";
-		else
-			value = '"' + value + '"';
-		wrap.addBodyLine("return " + value + ";");
-	}
+    private static final Method wrap;
+    static {
+        wrap = new Method("wrap");
+        wrap.setVisibility(JavaVisibility.PUBLIC);
+        wrap.setReturnType(new FullyQualifiedJavaType("String"));
+        String value = Env.DB.wrapper.apply("\" + name() + \"");
+        if (value.equals("\" + name() + \""))
+            value = "name()";
+        else
+            value = '"' + value + '"';
+        wrap.addBodyLine("return " + value + ";");
+    }
 
-	public TableEnum(IntrospectedTable table) {
-		super(new FullyQualifiedJavaType("Tb_" + table.getFullyQualifiedTableNameAtRuntime()));
-		setVisibility(JavaVisibility.PUBLIC);
-		for (IntrospectedColumn column : table.getAllColumns())
-			addEnumConstant(column.getActualColumnName());
-		addMethod(wrap);
-	}
+    public TableEnum(IntrospectedTable table) {
+        super(new FullyQualifiedJavaType("Tb_" + table.getFullyQualifiedTableNameAtRuntime()));
+        setVisibility(JavaVisibility.PUBLIC);
+        for (IntrospectedColumn column : table.getAllColumns())
+            addEnumConstant(column.getActualColumnName());
+        addMethod(wrap);
+    }
 
 }
