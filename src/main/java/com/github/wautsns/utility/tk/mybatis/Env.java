@@ -229,9 +229,9 @@ public class Env {
                     Arrays.asList("Getter", "Setter", "ToString", "EqualsAndHashCode").stream()
                         .filter(val::contains)
                         .forEach(v -> enabled.put("lombok." + v, "@" + v));
-                    needGetter = !enabled.containsKey("lombok.Getter");
-                    needSetter = !enabled.containsKey("lombok.Setter");
-                    if (!needGetter || !needSetter) {
+                    needGetter = enabled.containsKey("lombok.Getter");
+                    needSetter = enabled.containsKey("lombok.Setter");
+                    if (needSetter) {
                         Pattern pattern = Pattern.compile("(@Accessors[^)]*\\))");
                         Matcher matcher = pattern.matcher(val);
                         if (matcher.find())

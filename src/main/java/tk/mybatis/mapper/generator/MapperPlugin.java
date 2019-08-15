@@ -160,7 +160,7 @@ public class MapperPlugin extends FalseMethodPlugin {
         TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn,
         IntrospectedTable introspectedTable,
         ModelClassType modelClassType) {
-        return Extra.Lombok.needGetter;
+        return !Extra.Lombok.needGetter;
     }
 
     @Override
@@ -168,7 +168,7 @@ public class MapperPlugin extends FalseMethodPlugin {
         TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn,
         IntrospectedTable introspectedTable,
         ModelClassType modelClassType) {
-        return Extra.Lombok.needSetter;
+        return !Extra.Lombok.needSetter;
     }
 
     @Override

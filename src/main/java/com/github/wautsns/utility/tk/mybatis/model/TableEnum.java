@@ -18,6 +18,7 @@ package com.github.wautsns.utility.tk.mybatis.model;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
+import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.InnerEnum;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
@@ -33,17 +34,22 @@ import com.github.wautsns.utility.tk.mybatis.Env;
  */
 public class TableEnum extends InnerEnum {
 
-    private static final Method wrap;
+    private static final Field wrap;
+    private static final Method getWrap;
     static {
-        wrap = new Method("wrap");
-        wrap.setVisibility(JavaVisibility.PUBLIC);
-        wrap.setReturnType(new FullyQualifiedJavaType("String"));
+        wrap = new Field("wrap", new FullyQualifiedJavaType("String"));
+        wrap.setVisibility(JavaVisibility.PRIVATE);
+        wrap.setFinal(true);
         String value = Env.DB.wrapper.apply("\" + name() + \"");
         if (value.equals("\" + name() + \""))
             value = "name()";
         else
             value = '"' + value + '"';
-        wrap.addBodyLine("return " + value + ";");
+        wrap.setInitializationString(value + ";");
+        getWrap = new Method("wrap");
+        getWrap.setVisibility(JavaVisibility.PUBLIC);
+        getWrap.setReturnType(new FullyQualifiedJavaType("String"));
+        getWrap.addBodyLine("return wrap;");
     }
 
     public TableEnum(IntrospectedTable table) {
@@ -51,7 +57,12 @@ public class TableEnum extends InnerEnum {
         setVisibility(JavaVisibility.PUBLIC);
         for (IntrospectedColumn column : table.getAllColumns())
             addEnumConstant(column.getActualColumnName());
-        addMethod(wrap);
+        addField(wrap);
+        if (Env.Extra.Lombok.needGetter) {
+            addAnnotation("@Getter");
+        } else {
+            addMethod(getWrap);
+        }
     }
 
 }
