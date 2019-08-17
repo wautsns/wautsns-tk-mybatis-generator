@@ -58,11 +58,7 @@ public class TableEnum extends InnerEnum {
         for (IntrospectedColumn column : table.getAllColumns())
             addEnumConstant(column.getActualColumnName());
         addField(wrap);
-        if (Env.Extra.Lombok.needGetter) {
-            addAnnotation("@Getter");
-        } else {
-            addMethod(getWrap);
-        }
+        addMethod(getWrap);
     }
 
 }
