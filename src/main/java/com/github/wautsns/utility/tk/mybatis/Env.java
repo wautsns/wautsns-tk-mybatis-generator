@@ -224,7 +224,7 @@ public class Env {
                 enabled = new HashMap<>(4);
                 String val = val("extra.lombok", "@Data,@Accessors(chain = true)");
                 if (val.contains("@Data"))
-                    enabled.put("@Data", "lombok.Data");
+                    enabled.put("lombok.Data", "@Data");
                 else {
                     Arrays.asList("Getter", "Setter", "ToString", "EqualsAndHashCode").stream()
                         .filter(val::contains)
