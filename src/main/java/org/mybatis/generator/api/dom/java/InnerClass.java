@@ -18,6 +18,7 @@ package org.mybatis.generator.api.dom.java;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,11 +27,12 @@ import org.mybatis.generator.api.dom.OutputUtilities;
 /**
  * This class encapsulates the idea of an inner class - it has methods that make
  * it easy to generate inner classes.
- * 
+ *
  * @author Jeff Butler
  */
 public class InnerClass extends JavaElement {
 
+    private List<Field> staticFields;
 	/** The fields. */
 	private List<Field> fields;
 
@@ -70,13 +72,14 @@ public class InnerClass extends JavaElement {
 	public InnerClass(FullyQualifiedJavaType type) {
 		super();
 		this.type = type;
-		fields = new ArrayList<Field>();
-		innerClasses = new ArrayList<InnerClass>();
-		innerEnums = new ArrayList<InnerEnum>();
-		this.typeParameters = new ArrayList<TypeParameter>();
-		superInterfaceTypes = new HashSet<FullyQualifiedJavaType>();
-		methods = new ArrayList<Method>();
-		initializationBlocks = new ArrayList<InitializationBlock>();
+        staticFields = new LinkedList<>();
+		fields = new ArrayList<>();
+		innerClasses = new ArrayList<>();
+		innerEnums = new ArrayList<>();
+		this.typeParameters = new ArrayList<>();
+		superInterfaceTypes = new HashSet<>();
+		methods = new ArrayList<>();
+		initializationBlocks = new ArrayList<>();
 	}
 
 	/**
@@ -105,7 +108,10 @@ public class InnerClass extends JavaElement {
 	 *              the field
 	 */
 	public void addField(Field field) {
-		fields.add(field);
+        if (field.isStatic())
+            staticFields.add(field);
+        else
+            fields.add(field);
 	}
 
 	/**
@@ -284,6 +290,13 @@ public class InnerClass extends JavaElement {
 		// end
 		indentLevel++;
 
+		for(Iterator<Field> i = staticFields.iterator();i.hasNext();){
+		    OutputUtilities.newLine(sb);
+            Field field = i.next();
+            sb.append(field.getFormattedContent(indentLevel, compilationUnit));
+		}
+		if(staticFields.size() > 0)
+		    OutputUtilities.newLine(sb);
 		Iterator<Field> fldIter = fields.iterator();
 		while (fldIter.hasNext()) {
 			OutputUtilities.newLine(sb);

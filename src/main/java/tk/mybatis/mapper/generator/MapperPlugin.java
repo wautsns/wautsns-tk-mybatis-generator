@@ -87,7 +87,7 @@ public class MapperPlugin extends FalseMethodPlugin {
         serialVersionUID.setStatic(true);
         serialVersionUID.setFinal(true);
         serialVersionUID.setInitializationString("1L");
-        topLevelClass.getFields().add(0, serialVersionUID);
+        topLevelClass.addField(serialVersionUID);
         // XXX 引入需要的JPA注解
         Arrays.asList(
             "javax.persistence.Table",
@@ -126,7 +126,7 @@ public class MapperPlugin extends FalseMethodPlugin {
         TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn,
         IntrospectedTable introspectedTable,
         ModelClassType modelClassType) {
-        return !Extra.Lombok.needGetter;
+        return Extra.Lombok.needGetter;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class MapperPlugin extends FalseMethodPlugin {
         TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn,
         IntrospectedTable introspectedTable,
         ModelClassType modelClassType) {
-        return !Extra.Lombok.needSetter;
+        return Extra.Lombok.needSetter;
     }
 
     @Override
