@@ -222,20 +222,20 @@ public class Env {
             static {
                 enabled = new HashMap<>(4);
                 String val = val("extra.lombok", "@Data,@Accessors(chain = true)");
-                if (val.contains("@Data"))
+                if (val.contains("@Data")){
                     enabled.put("lombok.Data", "@Data");
-                else {
+                } else {
                     Arrays.asList("Getter", "Setter", "ToString", "EqualsAndHashCode").stream()
                         .filter(val::contains)
                         .forEach(v -> enabled.put("lombok." + v, "@" + v));
                     needGetter = !enabled.containsKey("lombok.Getter");
                     needSetter = !enabled.containsKey("lombok.Setter");
-                    if (needSetter) {
-                        Pattern pattern = Pattern.compile("(@Accessors[^)]*\\))");
-                        Matcher matcher = pattern.matcher(val);
-                        if (matcher.find())
-                            enabled.put("lombok.experimental.Accessors", matcher.group(1));
-                    }
+                }
+                if (val.contains("@Accessors")) {
+                    Pattern pattern = Pattern.compile("(@Accessors[^)]*\\))");
+                    Matcher matcher = pattern.matcher(val);
+                    if (matcher.find())
+                        enabled.put("lombok.experimental.Accessors", matcher.group(1));
                 }
             }
         }
