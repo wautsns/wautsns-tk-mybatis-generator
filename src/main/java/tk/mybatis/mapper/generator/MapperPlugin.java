@@ -40,8 +40,10 @@ import java.util.Properties;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
+import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
+import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 
@@ -50,7 +52,6 @@ import com.github.wautsns.utility.tk.mybatis.Env.DB;
 import com.github.wautsns.utility.tk.mybatis.Env.Extra;
 import com.github.wautsns.utility.tk.mybatis.Env.Key;
 import com.github.wautsns.utility.tk.mybatis.Env.Mapper;
-import com.github.wautsns.utility.tk.mybatis.model.TableEnum;
 
 /**
  * 通用Mapper生成器插件
@@ -79,7 +80,14 @@ public class MapperPlugin extends FalseMethodPlugin {
     }
 
     private void processEntityClass(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        topLevelClass.addInnerEnum(new TableEnum(introspectedTable));
+        topLevelClass.getImportedTypes().add(new FullyQualifiedJavaType("java.io.Serializable"));
+        topLevelClass.addSuperInterface(new FullyQualifiedJavaType("Serializable"));
+        Field serialVersionUID = new Field("serialVersionUID", new FullyQualifiedJavaType("long"));
+        serialVersionUID.setVisibility(JavaVisibility.PRIVATE);
+        serialVersionUID.setStatic(true);
+        serialVersionUID.setFinal(true);
+        serialVersionUID.setInitializationString("1L");
+        topLevelClass.getFields().add(0, serialVersionUID);
         // XXX 引入需要的JPA注解
         Arrays.asList(
             "javax.persistence.Table",
@@ -111,48 +119,6 @@ public class MapperPlugin extends FalseMethodPlugin {
         String shortTableName = temp[temp.length - 1];
         // end
         topLevelClass.addAnnotation("@Table(name = \"" + DB.toFullTableName(shortTableName) + "\")");
-        // FIXME 移除字段名常量, 因为 Weekend 有 lambda 方式
-        // FIXME 移除默认值的 instance, 感觉无用
-        // FIXME 添加 hashcode/equals
-        // List<IntrospectedColumn> keyCols = introspectedTable.getPrimaryKeyColumns();
-        // if (keyCols.size() == 0)
-        // keyCols = introspectedTable.getAllColumns();
-        // List<String> pks = keyCols.stream()
-        // .map(IntrospectedColumn::getJavaProperty)
-        // .collect(Collectors.toList());
-        // TODO 需要优化
-        // Method hashcode = new Method("hashCode");
-        // hashcode.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        // hashcode.addAnnotation("@Override");
-        // hashcode.setVisibility(JavaVisibility.PUBLIC);
-        // Method equals = new Method("equals");
-        // equals.setReturnType(FullyQualifiedJavaType.getBooleanPrimitiveInstance());
-        // equals.addParameter(new Parameter(FullyQualifiedJavaType.getObjectInstance(), "obj"));
-        // equals.addAnnotation("@Override");
-        // equals.addBodyLine("if (this == obj) return true;");
-        // equals.addBodyLine("if (obj == null) return false;");
-        // equals.addBodyLine("if (getClass() != obj.getClass())");
-        // equals.addBodyLine("\treturn false;");
-        // String modelName = topLevelClass.getType().getShortName();
-        // equals.addBodyLine(String.format("%s other = (%s) obj;", modelName, modelName));
-        // equals.setVisibility(JavaVisibility.PUBLIC);
-        // if (pks.size() == 1) {
-        // hashcode.addBodyLine(String.format("return Objects.hashCode(%s);", pks.get(0)));
-        // equals.addBodyLine(String.format("return Objects.equals(%s, other.%s);", pks.get(0), pks.get(0)));
-        // } else {
-        // StringBuilder bder = new StringBuilder();
-        // pks.forEach(pk -> bder.append(pk).append(", "));
-        // bder.delete(bder.length() - 2, bder.length());
-        // hashcode.addBodyLine(String.format("return Objects.hash(%s);", bder));
-        // pks.forEach(pk -> {
-        // equals.addBodyLine(String.format("if (!Objects.equals(%s,other.%s))", pk, pk));
-        // equals.addBodyLine("\treturn false;");
-        // });
-        // equals.addBodyLine("return true;");
-        // }
-        // topLevelClass.addMethod(hashcode);
-        // topLevelClass.addMethod(equals);
-        // topLevelClass.addImportedType(new FullyQualifiedJavaType("java.util.Objects"));
     }
 
     @Override

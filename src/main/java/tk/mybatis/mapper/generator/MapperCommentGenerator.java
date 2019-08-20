@@ -49,7 +49,6 @@ public class MapperCommentGenerator extends CommonCommentGenerator {
 	@Override
 	public void addFieldComment(Field field, IntrospectedTable introspectedTable,
 			IntrospectedColumn introspectedColumn) {
-		// FIXME 添加字段注释,若为主键则不添加(因为一般都为逻辑主键)
 		Comments.javaDoc4field(introspectedColumn).forEach(field::addJavaDocLine);
 		if (field.isTransient())
 			field.addAnnotation("@Transient");

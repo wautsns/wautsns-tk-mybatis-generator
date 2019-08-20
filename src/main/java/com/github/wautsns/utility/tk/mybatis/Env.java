@@ -222,8 +222,8 @@ public class Env {
             public static boolean needSetter;
             static {
                 enabled = new HashMap<>(4);
-                String val = val("extra.lombok", "@Getter,@Setter,@Accessors(chain = true)");
-                if (val.contains("@Date"))
+                String val = val("extra.lombok", "@Data,@Accessors(chain = true)");
+                if (val.contains("@Data"))
                     enabled.put("@Data", "lombok.Data");
                 else {
                     Arrays.asList("Getter", "Setter", "ToString", "EqualsAndHashCode").stream()

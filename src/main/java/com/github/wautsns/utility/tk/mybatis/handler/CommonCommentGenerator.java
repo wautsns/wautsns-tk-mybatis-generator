@@ -79,33 +79,34 @@ public abstract class CommonCommentGenerator implements CommentGenerator {
     @Override
     public final void addRootComment(XmlElement rootElement) {}
 
-    // 非 model 字段注释
+    // 非 PO 类字段注释
     @Override
     public final void addFieldComment(Field field, IntrospectedTable introspectedTable) {}
 
-    // 非 model 方法注释
+    // 非 PO 类方法注释
     @Override
     public final void addGeneralMethodComment(Method method, IntrospectedTable introspectedTable) {}
 
-    // 非 model 方法注解
+    // 非 PO 类方法注解
     @Override
     public final void addGeneralMethodAnnotation(
         Method method, IntrospectedTable introspectedTable, Set<FullyQualifiedJavaType> set) {}
 
-    // 非 model 字段注解
+    // 非 PO 类字段注解
     @Override
     public final void addFieldAnnotation(Field field, IntrospectedTable introspectedTable,
         Set<FullyQualifiedJavaType> set) {}
 
-    // 非 model 字段注解
+    // 非 PO 类 字段注解
     @Override
     public final void addFieldAnnotation(Field field, IntrospectedTable introspectedTable,
         IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> set) {}
 
-    // 类注解
+    // 普通类注解
     @Override
     public final void addClassAnnotation(
-        InnerClass innerClass, IntrospectedTable introspectedTable, Set<FullyQualifiedJavaType> set) {}
+            InnerClass innerClass, IntrospectedTable introspectedTable, Set<FullyQualifiedJavaType> set) {
+    }
 
     // 普通方法注解
     @Override
