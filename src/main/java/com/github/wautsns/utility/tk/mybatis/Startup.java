@@ -32,6 +32,7 @@ public class Startup {
             .parseConfiguration(Startup.class.getResourceAsStream("/generator/config.xml"));
         new MyBatisGenerator(configuration, new DefaultShellCallback(true), warnings).generate(null);
         warnings.forEach(System.err::println);
+        System.out.println("Finished");
     }
 
 }
